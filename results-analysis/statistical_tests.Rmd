@@ -1,0 +1,585 @@
+---
+title: "EAAI-26 Analysis: AI-Powered Pictogram and Keyword Scaffolds for Adaptive Reading Support in Neurodiverse Learners"
+author: "Anonymous Anonymous"
+date: "2025-08-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1- Load required packages
+We load all R packages used for data cleaning, visualization, and statistical analysis.
+
+```{r}
+library(ggplot2)
+library(gghalves) 
+library(dplyr) 
+library(ggdist)  
+library(tidyverse)
+library(patchwork) 
+library(effectsize)
+library(broom)
+library(multcomp)
+library(car)    
+library(emmeans)   
+```
+
+## 2- Load the dataset
+We import the CSV file containing all participant data.
+
+```{r}
+data_path = "/Users/sjhilal/Desktop/EAAI-26/EAAI_data.csv" # complete path to the data
+df <- read.delim(data_path, header = TRUE, sep = ",")
+```
+
+## 3- General configuration
+We define parameters for saving figures and set the output directory for results.
+
+``` {r}
+save_figs <- 1 # 1 = save figures, 0 = don't save
+output_dir <- file.path(dirname(data_path), "outputs")
+```
+
+## 4- Data preparation
+We compute the number of diagnosed disorders, and calculate absolute and relative modality gains.
+
+```{r}
+# Ensure modality is ordered
+df <- df %>%
+  mutate(modality = factor(modality, levels = c("A","B","C","D")))
+
+# Comorbidity count
+disorders <- c("DCD","ADHD","LD","SLD","MMD","ED")
+df <- df %>%
+  mutate(n_disorders = rowSums(across(all_of(disorders), ~ as.integer(.x))))
+
+# Compute gains
+df <- df %>%
+  arrange(participant_id, modality) %>%
+  group_by(participant_id) %>%
+  mutate(
+    A_score = score_pct[modality == "A"][1],  # temp
+    prev_score = lag(score_pct),
+    gain_rel = case_when(
+      modality == "A" ~ 0,
+      is.finite(prev_score) & prev_score > 0 ~ (score_pct - prev_score) / prev_score,
+      TRUE ~ NA_real_
+    ),
+    gain_abs = case_when(
+      modality == "A" ~ 0,
+      is.finite(A_score) & A_score > 0 ~ (score_pct - A_score) / A_score,
+      TRUE ~ NA_real_
+    )
+  ) %>%
+  ungroup() %>%
+  dplyr::select(-A_score, -prev_score)  # drop temp columns
+```
+
+## 5- Figure 3 – Age by gender
+We create a violin–boxplot hybrid showing the distribution of participant ages by gender and school grade.
+
+```{r}
+# 1) Keep one row per participant for demographics plot
+demo <- df %>%
+  distinct(participant_id, gender, age_yrs, school_grade, .keep_all = FALSE) %>%
+  mutate(
+    gender = factor(gender),
+    school_grade = factor(school_grade),
+    gender_num = ifelse(gender == "F", 1, 1.4)  # F=1, M=1.4
+  )
+
+# 2) Plot with original position offsets
+p_fig3 <- ggplot(demo, aes(x = gender_num, y = age_yrs)) +
+  geom_half_violin(
+    aes(fill = gender),
+    side = "l", alpha = 0.6, trim = FALSE, width = 0.2,
+    position = position_nudge(x = -0.06), color = NA
+  ) +
+  geom_boxplot(
+    aes(fill = gender),
+    width = 0.065, alpha = 0.5,
+    position = position_nudge(x = 0), outlier.shape = NA
+  ) +
+  geom_point(
+    aes(
+      x = gender_num + 0.085 + runif(nrow(demo), -0.03, 0.03),
+      color = school_grade
+    ),
+    alpha = 0.8, size = 4, shape = 16
+  ) +
+  stat_summary(
+    fun = mean, geom = "point", shape = 23, size = 4,
+    fill = "white", color = "black", position = position_nudge(x = 0)
+  ) +
+  scale_fill_manual(values = c("F" = "#f8766d", "M" = "#00bfc4")) +
+  scale_color_manual(values = c("4" = "grey60", "5" = "black")) +
+  scale_x_continuous(
+    breaks = c(1, 1.4),
+    labels = c("Female", "Male")
+  ) +
+  labs(
+    x = "Gender",
+    y = "Age (years)",
+    fill = "Gender",
+    color = "School Grade"
+  ) +
+  theme_minimal(base_size = 18) +
+  theme(
+    legend.position = "top",
+    panel.spacing = unit(.1, "lines")
+  )
+
+p_fig3
+
+# Save only if save_figs is enabled
+if (save_figs == 1) {
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+  ggsave(file.path(output_dir, "fig3_age_by_gender.pdf"),
+         p_fig3, width = 8, height = 5, units = "in", dpi = 300)
+}
+```
+
+## 6- Statistical analysis – Diagnostic group differences in performance
+We run two-way ANOVAs for score percentage, with modality and each diagnosis as fixed factors.
+
+```{r}
+# ---- ANOVA suite  ----
+
+library(effectsize)
+library(broom)
+
+# Ensure factors/levels
+df$modality <- factor(df$modality, levels = c("A","B","C","D"))
+
+
+df$n_disorders <- factor(df$n_disorders)
+
+metrics   <- c("score_pct")
+factors   <- c("DCD","ADHD","LD","SLD","MMD","ED","n_disorders")
+
+
+run_anova_min <- function(metric, factor_name) {
+  # coerce factor column to factor for the model
+  df[[factor_name]] <<- as.factor(df[[factor_name]])
+  fml <- as.formula(paste0(metric, " ~ modality * ", factor_name))
+  fit <- aov(fml, data = df)
+
+  cat("\n=============================\n")
+  cat("TWO-WAY ANOVA:", metric, "~ modality *", factor_name, "\n")
+  cat("=============================\n")
+  print(summary(fit))
+
+  eta <- suppressWarnings(effectsize::eta_squared(fit, partial = TRUE))
+  print(eta)
+
+  invisible(list(fit = fit, eta = eta))
+}
+
+for (m in metrics) {
+  for (fac in factors) {
+    run_anova_min(m, fac)
+  }
+}
+
+```
+
+## 7- Figure 4 – Scores per disorder and modality
+We plot boxplots and means for score percentage across modalities, grouped by diagnostic status for each disorder.
+
+```{r }
+# Ensure modality is ordered
+df <- df %>%
+  mutate(modality = factor(modality, levels = c("A","B","C","D")))
+
+# List of disorders to loop over (note DSA -> SLD; score -> score_pct)
+disorders <- c("LD", "ADHD", "MMD", "SLD", "DCD", "ED")
+
+# Helper: nice labels for legend
+diag_labels <- c("0" = "Not diagnosed", "1" = "Diagnosed")
+
+# Function to generate plot for each disorder (no pivoting)
+make_plot <- function(disorder_col) {
+  # Coerce to factor just for plotting
+  ggplot(df, aes(x = modality, y = score_pct)) +
+    geom_boxplot(
+      aes(fill = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      position = position_dodge(width = 0.48),
+      width = 0.4, alpha = 0.2, outlier.shape = NA
+    ) +
+    # jittered points with dodge to separate by diagnosis
+    geom_point(
+      aes(fill = factor(.data[[disorder_col]])),
+      position = position_jitterdodge(
+        jitter.width = 0.1, jitter.height = 0,
+        dodge.width = 0.48
+      ),
+      shape = 21, size = 3, color = "white", stroke = 0.3, alpha = 0.6
+    ) +
+    # mean points
+    stat_summary(
+      fun = mean, geom = "point",
+      aes(group = factor(.data[[disorder_col]]),
+          fill = factor(.data[[disorder_col]])),
+      shape = 21, size = 6, color = "white", stroke = 0.9, alpha = 1,
+      position = position_dodge(width = 0.48)
+    ) +
+    # mean ± SE error bars
+    stat_summary(
+      fun.data = mean_se, geom = "errorbar",
+      aes(group = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      width = 0.2, alpha = 0.9,
+      position = position_dodge(width = 0.48)
+    ) +
+    # mean line across modalities
+    stat_summary(
+      fun = mean, geom = "line",
+      aes(group = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      linewidth = 0.9, alpha = 0.9,
+      position = position_dodge(width = 0.48)
+    ) +
+    scale_y_continuous(limits = c(0, 100), breaks = c(25, 50, 75, 100)) +
+    scale_fill_manual(values = c("0" = "lightgray", "1" = "tomato"),
+                      labels = diag_labels) +
+    scale_color_manual(values = c("0" = "lightgray", "1" = "tomato"),
+                       labels = diag_labels) +
+    labs(
+      title = disorder_col,
+      x = "Modality",
+      y = "Score",
+      fill = disorder_col,
+      color = disorder_col
+    ) +
+    theme_minimal(base_size = 30) +
+    theme(legend.position = "right")
+}
+
+# Generate plots & combine in a 3x2 grid
+plot_list <- lapply(disorders, make_plot)
+fig4 <- wrap_plots(plotlist = plot_list, ncol = 3)
+
+fig4
+
+# Save
+if (exists("save_figs") && save_figs == 1) {
+  if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+  ggsave(file.path(output_dir, "fig4_scores_per_disorder_per_modality.pdf"),
+         fig4, width = 38, height = 8, units = "in", dpi = 300)
+}
+
+```
+
+## 8- Statistical analysis – Diagnostic modulation of multimodal benefit
+We run two-way ANOVAs for relative and absolute modality gains, with modality and each diagnosis as fixed factors.
+
+```{r}
+# ---- ANOVA suite  ----
+
+# Ensure factors/levels
+df$modality <- factor(df$modality, levels = c("A","B","C","D"))
+
+
+df$n_disorders <- factor(df$n_disorders)
+
+metrics   <- c("gain_rel", "gain_abs")
+factors   <- c("DCD","ADHD","LD","SLD","MMD","ED","n_disorders")
+
+
+run_anova_min <- function(metric, factor_name) {
+  # coerce factor column to factor for the model
+  df[[factor_name]] <<- as.factor(df[[factor_name]])
+  fml <- as.formula(paste0(metric, " ~ modality * ", factor_name))
+  fit <- aov(fml, data = df)
+
+  cat("\n=============================\n")
+  cat("TWO-WAY ANOVA:", metric, "~ modality *", factor_name, "\n")
+  cat("=============================\n")
+  print(summary(fit))
+
+  eta <- suppressWarnings(effectsize::eta_squared(fit, partial = TRUE))
+  print(eta)
+
+  invisible(list(fit = fit, eta = eta))
+}
+
+for (m in metrics) {
+  for (fac in factors) {
+    run_anova_min(m, fac)
+  }
+}
+
+```
+
+## 9- Figure 5 – Absolute modality gain per disorder
+We visualize absolute modality gains across modalities for each diagnostic group.
+
+```{r}
+# Ensure Modality is ordered A-B-C-D
+df <- df %>%
+  mutate(modality = factor(modality, levels = c("A","B","C","D")))
+
+# Disorders to plot (DSA -> SLD)
+disorders <- c("LD", "ADHD", "MMD", "SLD", "DCD", "ED")
+diag_labels <- c("0" = "Not diagnosed", "1" = "Diagnosed")
+
+# One plot per disorder
+make_plot <- function(disorder_col) {
+  ggplot(df, aes(x = modality, y = gain_abs)) +
+    geom_boxplot(
+      aes(fill = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      position = position_dodge(width = 0.48),
+      width = 0.4, alpha = 0.2, outlier.shape = NA
+    ) +
+    geom_point(
+      aes(fill = factor(.data[[disorder_col]])),
+      position = position_jitterdodge(
+        jitter.width = 0.10, jitter.height = 0,
+        dodge.width = 0.48
+      ),
+      shape = 21, size = 3, color = "white", stroke = 0.3, alpha = 0.6
+    ) +
+    stat_summary(
+      fun = mean, geom = "point",
+      aes(group = factor(.data[[disorder_col]]),
+          fill  = factor(.data[[disorder_col]])),
+      shape = 21, size = 6, color = "white", stroke = 0.9,
+      position = position_dodge(width = 0.48)
+    ) +
+    stat_summary(
+      fun.data = mean_se, geom = "errorbar",
+      aes(group = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      width = 0.2, position = position_dodge(width = 0.48)
+    ) +
+    stat_summary(
+      fun = mean, geom = "line",
+      aes(group = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      linewidth = 0.9, position = position_dodge(width = 0.48)
+    ) +
+    scale_y_continuous(limits = c(-1, 2), breaks = -1:2) +
+    scale_fill_manual(values = c("0" = "lightgray", "1" = "tomato"),
+                      labels = diag_labels) +
+    scale_color_manual(values = c("0" = "lightgray", "1" = "tomato"),
+                       labels = diag_labels) +
+    labs(
+      title = disorder_col,
+      x = "Modality",
+      y = "Score Ratio Gain",
+      fill = disorder_col,
+      color = disorder_col
+    ) +
+    theme_minimal(base_size = 30) +
+    theme(legend.position = "right")
+}
+
+# Build and show 3x2 grid
+plot_list <- lapply(disorders, make_plot)
+fig5 <- wrap_plots(plotlist = plot_list, ncol = 3)
+fig5
+
+# Save if enabled
+if (exists("save_figs") && save_figs == 1) {
+  if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+  ggsave(file.path(output_dir, "fig5_gain_abs_per_disorder_per_modality.pdf"),
+         fig5, width = 38, height = 8, units = "in", dpi = 300)
+}
+
+```
+
+## 10- Figure 6 – Relative modality gain per disorder
+We visualize relative modality gains across modalities for each diagnostic group.
+
+```{r}
+# Ensure Modality is ordered A-B-C-D
+df <- df %>%
+  mutate(modality = factor(modality, levels = c("A","B","C","D")))
+
+# Disorders to plot (DSA -> SLD)
+disorders <- c("LD", "ADHD", "MMD", "SLD", "DCD", "ED")
+diag_labels <- c("0" = "Not diagnosed", "1" = "Diagnosed")
+
+# One plot per disorder
+make_plot <- function(disorder_col) {
+  ggplot(df, aes(x = modality, y = gain_rel)) +
+    geom_boxplot(
+      aes(fill = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      position = position_dodge(width = 0.48),
+      width = 0.4, alpha = 0.2, outlier.shape = NA
+    ) +
+    geom_point(
+      aes(fill = factor(.data[[disorder_col]])),
+      position = position_jitterdodge(
+        jitter.width = 0.10, jitter.height = 0,
+        dodge.width = 0.48
+      ),
+      shape = 21, size = 3, color = "white", stroke = 0.3, alpha = 0.6
+    ) +
+    stat_summary(
+      fun = mean, geom = "point",
+      aes(group = factor(.data[[disorder_col]]),
+          fill  = factor(.data[[disorder_col]])),
+      shape = 21, size = 6, color = "white", stroke = 0.9,
+      position = position_dodge(width = 0.48)
+    ) +
+    stat_summary(
+      fun.data = mean_se, geom = "errorbar",
+      aes(group = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      width = 0.2, position = position_dodge(width = 0.48)
+    ) +
+    stat_summary(
+      fun = mean, geom = "line",
+      aes(group = factor(.data[[disorder_col]]),
+          color = factor(.data[[disorder_col]])),
+      linewidth = 0.9, position = position_dodge(width = 0.48)
+    ) +
+    scale_y_continuous(limits = c(-1, 2), breaks = -1:2) +
+    scale_fill_manual(values = c("0" = "lightgray", "1" = "tomato"),
+                      labels = diag_labels) +
+    scale_color_manual(values = c("0" = "lightgray", "1" = "tomato"),
+                       labels = diag_labels) +
+    labs(
+      title = disorder_col,
+      x = "Modality",
+      y = "Score Ratio Gain",
+      fill = disorder_col,
+      color = disorder_col
+    ) +
+    theme_minimal(base_size = 30) +
+    theme(legend.position = "right")
+}
+
+# Build and show 3x2 grid
+plot_list <- lapply(disorders, make_plot)
+fig6 <- wrap_plots(plotlist = plot_list, ncol = 3)
+fig6
+
+# Save if enabled
+if (exists("save_figs") && save_figs == 1) {
+  if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+  ggsave(file.path(output_dir, "fig6_gain_rel_per_disorder_per_modality.pdf"),
+         fig6, width = 38, height = 8, units = "in", dpi = 300)
+}
+```
+
+## 11- Statistical analysis – Impact of comorbidity
+We run a two-way ANOVA for relative modality gain, with modality and number of diagnosed disorders as fixed factors, and perform post-hoc comparisons.
+
+``` {r}
+
+# Ensure factors are properly coded
+df$modality <- as.factor(df$modality)
+df$n_disorders <- as.factor(df$n_disorders)
+
+# Fit the 2-way ANOVA model
+model <- lm(gain_rel ~ modality * n_disorders, data = df)
+
+# Get ANOVA table 
+anova_results <- car::Anova(model, type = "III")
+print("ANOVA Results:")
+print(anova_results)
+
+# Posthoc comparisons 
+print("\n=== TukeyHSD (Base R) ===")
+tukey_hsd <- TukeyHSD(aov(gain_rel ~ modality * n_disorders, data = df))
+print(tukey_hsd)
+
+# Get descriptive statistics
+print("\n=== DESCRIPTIVE STATISTICS ===")
+desc_stats <- aggregate(gain_rel ~ modality * n_disorders, data = df, 
+                       FUN = function(x) c(mean = mean(x, na.rm = TRUE), 
+                                         sd = sd(x, na.rm = TRUE),
+                                         n = length(x)))
+print(desc_stats)
+
+```
+
+## 12- Figure 7 – Relative modality gain by number of diagnosed disorders
+We plot relative modality gains across modalities for participants with one, two, or three diagnosed disorders.
+
+```{r}
+# Ensure factors / levels
+df <- df %>%
+  mutate(
+    modality    = factor(modality, levels = c("A","B","C","D")),
+    n_disorders = factor(n_disorders, levels = c(1, 2, 3))  
+  )
+
+# Plot function (single figure)
+make_plot <- function() {
+  ggplot(df, aes(x = modality, y = gain_rel)) +
+    geom_boxplot(
+      aes(fill = n_disorders, color = n_disorders),
+      position = position_dodge(width = 0.48),
+      width = 0.4, alpha = 0.2, outlier.shape = NA
+    ) +
+    # jittered points that also dodge by n_disorders
+    geom_point(
+      aes(fill = n_disorders),
+      position = position_jitterdodge(
+        jitter.width = 0.10, jitter.height = 0,
+        dodge.width = 0.48
+      ),
+      shape = 21, size = 3, color = "white", stroke = 0.3, alpha = 0.6
+    ) +
+    # mean points
+    stat_summary(
+      fun = mean, geom = "point",
+      aes(group = n_disorders, fill = n_disorders),
+      shape = 21, size = 6, color = "white", stroke = 0.9,
+      position = position_dodge(width = 0.48)
+    ) +
+    # mean ± SE error bars
+    stat_summary(
+      fun.data = mean_se, geom = "errorbar",
+      aes(group = n_disorders, color = n_disorders),
+      width = 0.2, alpha = 0.9,
+      position = position_dodge(width = 0.48)
+    ) +
+    # mean line across modalities
+    stat_summary(
+      fun = mean, geom = "line",
+      aes(group = n_disorders, color = n_disorders),
+      linewidth = 0.9, alpha = 0.9,
+      position = position_dodge(width = 0.48)
+    ) +
+    scale_y_continuous(limits = c(-1, 2.2), breaks = -1:2) +
+    scale_fill_manual(
+      values = c("1" = "skyblue", "2" = "orange", "3" = "tomato"),
+      labels = c("1" = "One Disorder", "2" = "Two Disorders", "3" = "Three Disorders")
+    ) +
+    scale_color_manual(
+      values = c("1" = "skyblue", "2" = "orange", "3" = "tomato"),
+      labels = c("1" = "One Disorder", "2" = "Two Disorders", "3" = "Three Disorders")
+    ) +
+    labs(
+      x = "Modality",
+      y = "Score Ratio Gain",
+      fill = "Number of diagnosed\ndiosrders",
+      color = "Number of diagnosed\ndiosrders"
+    ) +
+    theme_minimal(base_size = 22) +
+    theme(legend.position = "right")
+}
+
+# Build & show
+fig7 <- make_plot()
+fig7
+
+# Save if enabled
+if (exists("save_figs") && save_figs == 1) {
+  if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+  ggsave(file.path(output_dir, "fig7_mod_gain_rel_by_n_disorders.pdf"),
+         plot = fig7, width = 12, height = 8, units = "in", dpi = 300)
+}
+
+```

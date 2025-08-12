@@ -1,0 +1,85 @@
+Informazioni cronologiche,Nome dell'user,Modalità di visualizzazione,Modalità di lettura del bambino,Il bambino è tornato al testo completo durante la risposta alle domande?,"Se sì, specificare se una volta o più volte. ",Il bambino sembra a suo agio durante la lettura. ,La piattaforma ha funzionato in maniera efficace,"Se hai selezionato totalmente in disaccordo o in disaccordo, puoi specificare cosa non ha funzionato?",Il bambino è attento durante la lettura,Il bambino si è mostrato motivato nel svolgere la lettura,Il bambino ha richiesto un supporto da parte dell'operatore,"Se hai selezionato d'accordo o totalmente d'accordo, puoi specificare quale tipo di supporto è stato richiesto?",Il bambino ha mostrato segni di affaticamento nel svolgere l'attività,Il bambino ha mostrato segni di frustrazione nella lettura
+2025/07/17 8:20:20 PM EEST,user1,1- Testo completo,Ad alta voce,No,,In disaccordo,Totalmente d'accordo,,In disaccordo,In disaccordo,In disaccordo,,D'accordo,Neutro
+2025/07/17 8:18:31 PM EEST,user1,2- Solo Frasi,Ad alta voce,No,,Neutro,Totalmente d'accordo,,In disaccordo,In disaccordo,In disaccordo,,Neutro,Neutro
+2025/07/17 8:15:38 PM EEST,user1,3- Frasi e Pittogrammi,Ad alta voce,Sì,una volta,D'accordo,Totalmente d'accordo,,D'accordo,Neutro,In disaccordo,,Neutro,Neutro
+2025/07/17 8:12:00 PM EEST,user1,"4- Frasi, Pittogrammi e Parole Chiave",Ad alta voce,No,,Neutro,D'accordo,,Neutro,Neutro,In disaccordo,,D'accordo,Neutro
+2025/05/08 5:33:58 PM EEST,user2,1- Testo completo,A mente,Sì,1,Neutro,Neutro,,D'accordo,D'accordo,Totalmente in disaccordo,,Neutro,Neutro
+2025/06/10 1:39:39 PM EEST,user2,2- Solo Frasi,Con la sintesi,No,,Neutro,D'accordo,,D'accordo,D'accordo,Neutro,,Neutro,Neutro
+2025/06/10 1:40:54 PM EEST,user2,3- Frasi e Pittogrammi,Ad alta voce,No,,D'accordo,D'accordo,,D'accordo,D'accordo,Neutro,,Neutro,In disaccordo
+2025/06/19 5:35:33 PM EEST,user2,"4- Frasi, Pittogrammi e Parole Chiave",Con la sintesi,Sì,più volte,D'accordo,D'accordo,,D'accordo,Neutro,In disaccordo,,In disaccordo,In disaccordo
+2025/04/23 6:08:04 PM EET,user3,1- Testo completo,Ad alta voce,Sì,una volta,Totalmente d'accordo,Neutro,,Totalmente d'accordo,Totalmente d'accordo,Totalmente in disaccordo,,In disaccordo,Totalmente in disaccordo
+2025/04/30 6:16:40 PM EEST,user3,2- Solo Frasi,Ad alta voce,Sì,una volta,In disaccordo,Totalmente d'accordo,,Totalmente d'accordo,D'accordo,D'accordo,Ha chiesto il significato di alcune parole,D'accordo,Neutro
+2025/04/23 6:09:01 PM EET,user3,3- Frasi e Pittogrammi,Ad alta voce,No,,D'accordo,Totalmente d'accordo,,D'accordo,D'accordo,Neutro,,Neutro,Neutro
+2025/04/30 6:18:32 PM EEST,user3,"4- Frasi, Pittogrammi e Parole Chiave",Ad alta voce,No,,Totalmente d'accordo,Totalmente d'accordo,,Totalmente d'accordo,Totalmente d'accordo,D'accordo,Ha chiesto il significato di alcune parole,In disaccordo,Totalmente in disaccordo
+2025/04/19 8:41:57 AM EET,user4,1- Testo completo,A mente,Sì,dalla domanda 4 fino all'ultima,In disaccordo,D'accordo,,D'accordo,Neutro,In disaccordo,,In disaccordo,In disaccordo
+2025/05/24 10:13:37 AM EEST,user4,2- Solo Frasi,Ad alta voce,No,,Totalmente in disaccordo,Totalmente d'accordo,,D'accordo,D'accordo,Totalmente in disaccordo,,D'accordo,Totalmente in disaccordo
+2025/05/24 10:34:13 AM EEST,user4,3- Frasi e Pittogrammi,Ad alta voce,No,,In disaccordo,Totalmente d'accordo,,D'accordo,D'accordo,D'accordo,chiedeva il significato delle parole,Totalmente d'accordo,In disaccordo
+2025/05/26 6:15:50 PM EEST,user4,"4- Frasi, Pittogrammi e Parole Chiave",Ad alta voce,Sì,sempre,Totalmente in disaccordo,Totalmente d'accordo,,D'accordo,D'accordo,D'accordo,ha chiesto il significato dei termini non conosciuti,Totalmente d'accordo,In disaccordo
+2025/05/06 8:05:20 PM EEST,user5,1- Testo completo,A mente,Sì,4 volte,D'accordo,D'accordo,,Totalmente d'accordo,Totalmente d'accordo,Totalmente in disaccordo,,Totalmente in disaccordo,Totalmente in disaccordo
+2025/05/06 8:06:05 PM EEST,user5,2- Solo Frasi,A mente,Sì,3 volte,D'accordo,D'accordo,,Totalmente d'accordo,Totalmente d'accordo,Totalmente in disaccordo,,Totalmente in disaccordo,Totalmente in disaccordo
+2025/06/10 6:26:22 PM EEST,user5,3- Frasi e Pittogrammi,Ad alta voce,No,,D'accordo,Neutro,,D'accordo,D'accordo,Totalmente in disaccordo,,Totalmente in disaccordo,Totalmente in disaccordo
+2025/06/10 6:27:13 PM EEST,user5,"4- Frasi, Pittogrammi e Parole Chiave",Ad alta voce,No,,D'accordo,Neutro,,D'accordo,D'accordo,Totalmente in disaccordo,,Totalmente in disaccordo,Totalmente in disaccordo
+2025/07/02 5:18:35 PM EEST,user6,1- Testo completo,A mente,Sì,9 volte,Neutro,Totalmente d'accordo,,Totalmente d'accordo,Neutro,Neutro,,Neutro,In disaccordo
+2025/06/25 5:17:05 PM EEST,user6,2- Solo Frasi,A mente,Sì,due volte,D'accordo,Totalmente d'accordo,,Totalmente d'accordo,Neutro,In disaccordo,,In disaccordo,Totalmente in disaccordo
+2025/06/18 5:37:10 PM EEST,user6,3- Frasi e Pittogrammi,A mente,Sì,2 volte,D'accordo,Totalmente d'accordo,,D'accordo,Neutro,D'accordo,su qualche parola,In disaccordo,Totalmente in disaccordo
+2025/06/26 5:59:33 PM EEST,user6,"4- Frasi, Pittogrammi e Parole Chiave",Con la sintesi,No,,Neutro,D'accordo,,Neutro,Neutro,In disaccordo,,Neutro,In disaccordo
+2025/05/07 5:07:39 PM EEST,user7,1- Testo completo,A mente,Sì,un,Neutro,Totalmente d'accordo,,D'accordo,Neutro,In disaccordo,,Neutro,In disaccordo
+2025/04/14 6:05:58 PM EET,user7,2- Solo Frasi,A mente,Sì,4 volte,D'accordo,D'accordo,,Totalmente d'accordo,Neutro,In disaccordo,,In disaccordo,Totalmente in disaccordo
+2025/05/06 9:45:06 AM EEST,user7,3- Frasi e Pittogrammi,A mente,No,,Neutro,D'accordo,,D'accordo,D'accordo,Neutro,,In disaccordo,In disaccordo
+2025/04/15 8:53:09 AM EET,user7,"4- Frasi, Pittogrammi e Parole Chiave",A mente,Sì,una volta,D'accordo,Totalmente d'accordo,,D'accordo,Neutro,D'accordo,"ha chiesto il significato di due parole (""carponi"" e ""pinnipede""), non gli è stato fornito, è stato esortato a capire dal contesto",Neutro,Totalmente in disaccordo
+2025/07/08 6:04:02 PM EEST,user8,2- Solo Frasi,Ad alta voce,Sì,un paio di volte,In disaccordo,Neutro,,D'accordo,D'accordo,Totalmente in disaccordo,,D'accordo,Totalmente in disaccordo
+2025/07/08 6:05:14 PM EEST,user8,1- Testo completo,Ad alta voce;A mente,No,,D'accordo,Neutro,,D'accordo,D'accordo,Totalmente in disaccordo,,D'accordo,Totalmente in disaccordo
+2025/07/08 6:06:07 PM EEST,user8,3- Frasi e Pittogrammi,Ad alta voce,No,,Neutro,Neutro,,D'accordo,Neutro,D'accordo,un aiuto sul significato di una parola,D'accordo,In disaccordo
+2025/07/08 6:07:02 PM EEST,user8,"4- Frasi, Pittogrammi e Parole Chiave",Ad alta voce,No,,D'accordo,Neutro,,Neutro,Neutro,Totalmente in disaccordo,,D'accordo,Totalmente in disaccordo
+2025/06/24 6:59:18 PM EEST,user9,1- Testo completo,Con la sintesi,No,,D'accordo,D'accordo,,D'accordo,Neutro,Neutro,,Neutro,In disaccordo
+2025/06/24 7:00:11 PM EEST,user9,2- Solo Frasi,Con la sintesi,No,,In disaccordo,In disaccordo,LA SINTESI VOCALE,Neutro,In disaccordo,Neutro,,D'accordo,Neutro
+2025/06/24 7:00:44 PM EEST,user9,3- Frasi e Pittogrammi,Con la sintesi,No,,Neutro,Neutro,,Neutro,Neutro,Neutro,,Neutro,Neutro
+2025/06/24 7:01:34 PM EEST,user9,"4- Frasi, Pittogrammi e Parole Chiave",Con la sintesi,No,,D'accordo,D'accordo,,Totalmente d'accordo,D'accordo,In disaccordo,,In disaccordo,Totalmente in disaccordo
+2025/05/05 4:14:32 PM EEST,user10,1- Testo completo,A mente,No,,Neutro,Totalmente d'accordo,,D'accordo,D'accordo,In disaccordo,,In disaccordo,In disaccordo
+2025/05/05 3:53:42 PM EEST,user10,2- Solo Frasi,A mente,No,,D'accordo,Totalmente d'accordo,,D'accordo,Neutro,D'accordo,per il significato di una parola,In disaccordo,In disaccordo
+2025/05/05 3:44:37 PM EEST,user10,3- Frasi e Pittogrammi,A mente,Sì,una volta,D'accordo,Totalmente d'accordo,,Totalmente d'accordo,D'accordo,Totalmente in disaccordo,,In disaccordo,In disaccordo
+2025/05/05 4:25:09 PM EEST,user10,"4- Frasi, Pittogrammi e Parole Chiave",A mente,No,,D'accordo,Totalmente d'accordo,,Neutro,D'accordo,In disaccordo,,Neutro,In disaccordo
+2025/05/21 5:16:04 PM EEST,user11,1- Testo completo,Ad alta voce;Con la sintesi,Sì,Più volte,Totalmente in disaccordo,Totalmente d'accordo,,D'accordo,Totalmente in disaccordo,In disaccordo,,Totalmente d'accordo,Totalmente d'accordo
+2025/04/18 5:51:04 PM EET,user11,2- Solo Frasi,Ad alta voce,Sì,Più volte (5 volte),D'accordo,Totalmente d'accordo,,D'accordo,Neutro,D'accordo,Ha chiesto il significato di una parola,In disaccordo,Totalmente in disaccordo
+2025/05/14 4:26:05 PM EEST,user11,3- Frasi e Pittogrammi,Ad alta voce,Sì,"Più volte, quasi sempre",Totalmente d'accordo,Totalmente d'accordo,,Totalmente d'accordo,Totalmente d'accordo,Totalmente in disaccordo,,Totalmente in disaccordo,Totalmente in disaccordo
+2025/05/07 4:31:17 PM EEST,user11 ,"4- Frasi, Pittogrammi e Parole Chiave",Ad alta voce;Con la sintesi,Sì,Ad ogni domanda,Totalmente in disaccordo,In disaccordo,"Spesso la sintesi vocale non ripartiva più , se messa in pausa per un attimo ",D'accordo,In disaccordo,Totalmente d'accordo,Per chiedere il significato di numerose parole e per richiedere aiuto nella ricerca delle risposte all’interno del testo,Totalmente d'accordo,Totalmente d'accordo
+2025/04/30 1:54:18 PM EEST,user12,1- Testo completo,Con la sintesi,Sì,è tornata al testo completo una sola volta,Neutro,In disaccordo,La sintesi non era sincronizzata con l'illuminazione del testo,D'accordo,Neutro,In disaccordo,,Neutro,In disaccordo
+2025/04/11 9:43:45 AM EET,user12,2- Solo Frasi,Con la sintesi,Sì,"Una volta, nella prima domanda",Neutro,In disaccordo,L'evidenziazione delle parole con la sintesi vocale si è bloccata,Neutro,Neutro,D'accordo,"La bambina chiede aiuto rispetto al contenuto di una domanda,  viene incoraggiata a continuare in autonomia.  ",D'accordo,Neutro
+2025/04/30 1:56:35 PM EEST,user12,3- Frasi e Pittogrammi,Con la sintesi,Sì,Una volta,D'accordo,In disaccordo,Una volta letta la frase con la sintesi la frase è rimasta tutta evidenziata anche durante un secondo ascolto della frase. ,D'accordo,D'accordo,In disaccordo,,In disaccordo,In disaccordo
+2025/04/10 5:47:26 PM EET,user12,"4- Frasi, Pittogrammi e Parole Chiave",A mente,Sì,è  tornata due volte nelle domande in cui non si ricordava un'informazione,D'accordo,Totalmente d'accordo,,D'accordo,D'accordo,In disaccordo,,In disaccordo,In disaccordo
+2025/07/07 7:01:41 PM EEST,user13,1- Testo completo,Ad alta voce,Sì,2 volte,Neutro,Totalmente d'accordo,,Neutro,In disaccordo,D'accordo,per tornare sul testo,D'accordo,In disaccordo
+2025/06/26 3:26:04 PM EEST,user13,2- Solo Frasi,Con la sintesi,Sì,3 volte,Neutro,D'accordo,,D'accordo,Neutro,Neutro,,D'accordo,In disaccordo
+2025/04/17 3:40:30 PM EET,user13,3- Frasi e Pittogrammi,Con la sintesi,Sì,una volta (ma non ha trovato l'informazione,D'accordo,Neutro,alcune immagini non erano perfettamente concruenti con la parola (vd macchinista)ti,D'accordo,Neutro,In disaccordo,,Neutro,In disaccordo
+2025/05/15 4:10:52 PM EEST,user13,"4- Frasi, Pittogrammi e Parole Chiave",Con la sintesi,Sì,una volta,Neutro,D'accordo,,D'accordo,In disaccordo,In disaccordo,,Neutro,In disaccordo
+2025/04/24 10:58:30 AM EET,user14,1- Testo completo,Ad alta voce,No,,D'accordo,Totalmente d'accordo,,Totalmente d'accordo,Neutro,Totalmente in disaccordo,,Neutro,Totalmente in disaccordo
+2025/04/23 4:40:28 PM EET,user14,2- Solo Frasi,Ad alta voce,No,,D'accordo,Totalmente d'accordo,,D'accordo,Neutro,Totalmente in disaccordo,,Neutro,Totalmente in disaccordo
+2025/04/23 2:38:47 PM EET,user14,3- Frasi e Pittogrammi,Ad alta voce,No,,Totalmente d'accordo,Totalmente d'accordo,,Totalmente d'accordo,Neutro,Totalmente in disaccordo,,Totalmente in disaccordo,Totalmente in disaccordo
+2025/04/23 2:29:12 PM EET,user14,"4- Frasi, Pittogrammi e Parole Chiave",Ad alta voce,No,,Totalmente d'accordo,Totalmente d'accordo,,Totalmente d'accordo,D'accordo,Totalmente in disaccordo,,In disaccordo,Totalmente in disaccordo
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
