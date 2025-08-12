@@ -10,34 +10,10 @@ Anonymised Code for Paper 151 submitted to EAAI-26
 
 ## Repository Structure
 
-- `exploratory`: Contains datasets used for exploratory data analysis.
-- `forms-results/finals`: Final results for the forms.
-- `interface-results`: Final results for the interface.
-- `results-analysis`: Contains code for analysis of the results.
-
-## Installation
-
-To set up the environment, follow these steps:
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/vs1rr/pictos.git
-   cd pictos
-   ```
-
-2. **Create and activate a virtual environment (optional but recommended):**
-
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-
-3. **Install the required dependencies:**
-
-   ```bash
-   pip install -r requirements.txt
-   ``
+- `exploratory`: Contains code used for exploratory data analysis.
+- `forms-results/finals`: Folder containing results for the forms.
+- `interface-results`: Folder containing results for the interface.
+- `results-analysis`: Folder containing code for analysis of the results and obtaining figures of the paper.
 
 ## License
 
