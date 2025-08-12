@@ -1,6 +1,6 @@
-# Domain Specificity Benchmark
+# Pictos experiment
 
-Anonymised Code for Paper submitted to ACL ARR 2025 (February) 
+Anonymised Code for Paper 151 submitted to EAAI-26
 
 ## Table of Contents
 
