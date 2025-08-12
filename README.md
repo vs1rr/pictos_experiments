@@ -2,13 +2,7 @@
 
 Anonymised Code for Paper 151 submitted to EAAI-26
 
-## Table of Contents
-
-- [Repository Structure](#repository-structure)
-- [Installation](#installation)
-- [License](#license)
-
-## Repository Structure
+## Folders in the repositiory
 
 - `exploratory`: Contains code used for exploratory data analysis.
 - `forms-results/finals`: Folder containing results for the forms.
