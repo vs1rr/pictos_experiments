@@ -8,7 +8,7 @@ Anonymised Code for Paper 151 submitted to EAAI-26
 - `forms-results/finals`: Folder containing results for the forms.
 - `interface-results`: Folder containing results for the interface.
 - `results-analysis`: Folder containing code for analysis of the results and obtaining figures of the paper.
-- `text-to-pictograms-pipeline`: Folder containing code for the generation and retrieval of pictogram from text. 
+- `text-to-pictograms-main.zip`: Folder containing code for the generation and retrieval of pictogram from text. 
 
 ## License
 
