@@ -30,7 +30,7 @@ library(emmeans)
 We import the CSV file containing all participant data.
 
 ```{r}
-data_path = "/Users/sjhilal/Desktop/EAAI-26/EAAI_data.csv" # complete path to the data
+data_path = "data.csv" # complete path to the data
 df <- read.delim(data_path, header = TRUE, sep = ",")
 ```
 
